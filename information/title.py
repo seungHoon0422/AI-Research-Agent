@@ -1,1 +1,0 @@
-RAG_CHAT_TITLE = "## 💫 Chat Model with RAG"

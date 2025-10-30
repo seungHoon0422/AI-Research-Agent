@@ -47,7 +47,7 @@ class ToolCallingManager:
         tavily_tools, paper_search_tools = [], []
 
         # Tool List 호출
-        if not self.tool_list or len(self.tool_list) <= 0:
+        if len(self.tool_list) <= 0:
             # tavily tool list 목록 조회
             tavily_tools:ListToolsResult = asyncio.run(tavily_mcp_client.tool_list())
             for tavily_tool in tavily_tools.tools:

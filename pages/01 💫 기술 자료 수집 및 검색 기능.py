@@ -13,6 +13,14 @@ MAX_DOMAIN_INPUT_COUNT = 3
 
 st.set_page_config(page_title="AI 기술 리서치 플랫폼", page_icon="🤖", layout="wide")
 
+# 페이지 전환 시 채팅 초기화 (페이지 식별자 기반)
+PAGE_ID = "PAGE_01_COLLECT"
+if st.session_state.get("current_page_id") != PAGE_ID:
+    st.session_state["current_page_id"] = PAGE_ID
+    # 채팅 메시지 초기화
+    if "messages" in st.session_state:
+        st.session_state["messages"] = []
+
 col1, col2 = st.columns([1, 1])
 
 with col1:
@@ -264,7 +272,7 @@ with col2:
     # use_tool = st.sidebar.checkbox("🔧 도구 사용", value=True, help="도구 사용 여부")
     use_tool = True
     temperature = st.sidebar.slider("temperature", 0.0, 1.0, 0.4)
-    tool_calling_manager = None
+    tool_calling_manager = st.session_state.get("tool_calling_manager", None)
 
     #### 채팅 기록의 초기화
     if 'messages' not in st.session_state:
@@ -297,9 +305,12 @@ with col2:
     #### Azure OpenAI Client 생성
     def get_azure_openai_client(messages):
 
-
+        
         if use_tool:
-            tool_calling_manager = ToolCallingManager(azure_client=model_client, model_name=model.base_model_name())
+            tool_calling_manager = st.session_state.get("tool_calling_manager", None)
+            if use_tool and not tool_calling_manager:
+                tool_calling_manager = ToolCallingManager(azure_client=model_client, model_name=model.base_model_name())
+                st.session_state["tool_calling_manager"] = tool_calling_manager
         tools =[]
         if use_tool:
             tools = tool_calling_manager.tool_list
@@ -307,7 +318,6 @@ with col2:
         # System Prompt에 관심 도메인 추가
         if len(st.session_state.domain_input_list) > 0:
             system_prompt = DOMAI_ADD_SYSTEM_PROMPT.format(domain_list=st.session_state.domain_input_list)
-            breakpoint()
             messages.append({"role": "system", "content": system_prompt})
 
         try:
@@ -420,6 +430,12 @@ with col2:
         
         st.session_state.messages.append({"role": "assistant", "content": assistant_response})
         st.rerun()
+    
+    if not tool_calling_manager and not st.session_state.get("tool_calling_manager", None):
+        with st.spinner("Tool 동기화 중..."):
+            tool_calling_manager = ToolCallingManager(azure_client=model_client, model_name=model.base_model_name())
+            st.toast("Tool 동기화가 완료되었습니다.", icon="✅")
+            st.session_state["tool_calling_manager"] = tool_calling_manager
 
 
 

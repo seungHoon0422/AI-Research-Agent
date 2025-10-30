@@ -1,48 +1,86 @@
-# AI 기술 리서치 플랫폼
+## ASAP (AI Search Agent Platform)
 
-### 간단 설명
-자동으로 최신 AI 논문·오픈소스·모델 정보를 수집·요약·시각화하여 리서치 비용과 시간을 절감하는 멀티에이전트 기반 리서치 플랫폼.
-
-### 목적
-- 급변하는 AI 기술 트렌드를 자동화해 연구 효율성 향상
-- 키워드 기반 기술 검색과 타겟 도메인 기반 기술 검색을 통한 기술 역량 강화
-- `고도화 항목` 기술 관계도 제공 및 커뮤니티 기반 지식 허브 구축 
-
-### 기술 스택
-- streamlit
-- python 3.12
-- UV Package Manager
-- LangChain, LangGraph (Agent 오케스트레이션)
-- Azure: AI Search, OpenAI, MCP Server
-- `고도화 항목` Neo4j
+## 주제 선정 목적
+- 최신 AI 기술 트렌드의 빠른 변화에 따른 기술 리서치 비용 감소
+- 관련 전문 지식 문서를 빠르게 인용 및 분석
+- 휘발성 학습이 아닌 학습한 자료를 영구적으로 보관 및 공유
 
 
-### 핵심 기능
+## 활용 기술
 
-1. 키워드 기반 리서치 Agent 구축
-    - LangGraph 기반 Multi-Agent 구축
-    - arXiv, GitHub, Hugging Face 등 MCP Server 활용 (Azure MCP Server, AI Search)
+- `python 3.12`
 
-2. 도메인 기반 리서치 Agent 구축
-    - Tavily MCP Server 사용 (Azure MCP Server)
+- `uv Package Manger`
 
-4. 검색된 자료 Storage 업로드 및 RAG Agent 구축 (Storage Accout, Blob Storage, AI Search)
+- `streamlit`
 
-5. `고도화 항목` Document 대시보드 구축
+- Azure Resource
 
-6. `고도화 항목` 기술 관계도 시각화
-    - 검색된 Docuemnt의 keyword 추출하여 지식 허브의 Document keyword 기반 관계도 생성
-    - Neo4j 기반 지식 그래프 생성
+    - Azure OpenAI
+        - `gpt-4.1` model 사용
+        - 커스텀 컨텐츠 필터 사용 : 검색 범위 확대 목적
 
----
+    - Azure Blob Storage
+        - 업로드 지식 문서 관리
 
-## Database 생성 및 연동
+    - Azure AI Search
+        - 업로드 문서의 Index Document 등록을 통한 RAG에 활용
+        - 문서의 `카테고리`, `키워드` 추출에 사용
 
-- 데이터베이스 생성
+    - Azure WebApp
+        - Streamlit, UV 기반 소스 배포
 
-![image](./images/database-setting.png)
+    - PostgreSQL Database ( 개발 필요 )
+        - 사용자 별 채팅 및 파일 업로드 이력 관리
+        - 업로드 문서 키워드, 카테고리 관리
 
-- VS Code를 통한 Azure PostgreSQL Database 연동
+- MCP Tool
+    - 모델 학습 시기에 따른 최신 정보 부재 해결을 위해 도입
+    - `tavily` : url 기반 문서 검색 도구
+    - `paper search` : 주요 논문 검색 사이트인 arxiv, pubmed 등 논문 데이터를 수집하는 도구
 
-![image](./images/database-connect.png)
 
+## 주요 기능
+
+### 1. 기술 자료 수집 및 검색 기능
+
+- **도메인 관리**: 관심 도메인 등록/초기화로 도메인 기반 검색 기능 구현
+- **문서 등록**: 기술 문서 업로드를 통해 검색 데이터 추가 및 미리보기 기능 구현
+- **색인 실행**: AI Search Document로 등록하여 검색 가능 상태 전환
+
+### 2. Chat Model with RAG
+
+- **RAG 질의응답**: 업로드한 Document 기반 답변 생성
+- **도구 호출**: 외부 도구 결과와 모델 답변을 구분 표시 및 MCP 도구를 활용해 최신 검색 결과 반영
+- **인용 표시**: 답변에 사용된 문서 청크 데이터, 도메인 출처 표시
+
+###  3. Document Hub - 지식 데이터베이스 구축
+- **지식 그래프**: [Document Hub] - [카테고리] - [키워드] 관계 시각화
+- **카테고리 필터**: 선택된 카테고리 항목만 그래프/목록 반영
+- **문서 목록**: 카테고리 별 Document Hub에 등록된 문서 목록 표시 및 페이지네이션
+
+
+## 핵심 기술 포인트
+
+- MCP Server를 통한 모델 도구 호출 기능 구현
+
+- Tag, Category 기반 문서 키워드 추출
+
+- 에이전트 별 활용 목적에 따른 System Prompt 관리
+
+- 개발 소스 추상화
+
+- streamlit-agraph 라이브러리를 통한 데이터 시각화
+
+
+## 향후 개선 및 확장 계획
+
+- 도메인 확장 : AI 기술 외 타 도메인으로의 확장
+
+- 스토리지 구조 개선: 문서 메타데이터 스키마 고도화, 버전 관리
+
+- RAG 품질 향상: Vector Embedding, Hybrid Search, 프롬프트 엔지니어링
+
+- 문서 Index 성능 개선 : 자동 Index 생성, 도메인, 카테고리 별 Index 생성
+
+- 그래프 확장: Neo4j 연동(고도화된 지식 그래프 생성), 그래프, 문서 연동

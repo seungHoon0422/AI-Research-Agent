@@ -6,16 +6,22 @@ from core.tool_calling import ToolCallingManager
 from models.model_selector import model, init_model
 from prompt.system_prompt import DEFAULT_SYSTEM_PROMPT
 from information.button import RAG_CHAT_HELP_BUTTON_MESSAGE, RAG_CHAT_CLEAR_BUTTON_MESSAGE, RAG_CHAT_HELP_DIALOG_MESSAGE
-from information.title import RAG_CHAT_TITLE
 import os
 
 st.set_page_config(page_title="AI 기술 리서치 플랫폼", page_icon="🤖", layout="wide")
+
+# 페이지 전환 시 채팅 초기화 (페이지 식별자 기반)
+PAGE_ID = "PAGE_02_RAG"
+if st.session_state.get("current_page_id") != PAGE_ID:
+    st.session_state["current_page_id"] = PAGE_ID
+    if "messages" in st.session_state:
+        st.session_state["messages"] = []
 
 
 #### NOTE: title 설정
 col2_1, col2_2 = st.columns([0.8, 0.2])
 with col2_1:
-    st.markdown(RAG_CHAT_TITLE)
+    st.markdown("## 💫 Chat Model with RAG")
     # 에이전트 사용법 모달 함수 정의
 
 with col2_2:
@@ -64,9 +70,10 @@ use_tool = False
 model_client = model.client()
 temperature = st.sidebar.slider("temperature", 0.0, 1.0, 0.4)
 
-tool_calling_manager = None
+tool_calling_manager = st.session_state.get("tool_calling_manager", None)
 if use_tool:
     tool_calling_manager = ToolCallingManager(azure_client=model_client, model_name=model.base_model_name())
+    st.session_state["tool_calling_manager"] = tool_calling_manager
 
 
     
@@ -192,9 +199,9 @@ def get_azure_openai_client(messages):
                                     filename = title
                                 content = cite.get("content", "")
                                 if content:
-                                    exp_title = f"미리보기 - {filename} (chunkid: {chunk_id})" if chunk_id is not None else f"미리보기 - {filename}"
+                                    exp_title = f"Document - {filename}" if chunk_id is not None else f"미리보기 - {filename}"
                                     with st.expander(exp_title, expanded=False):
-                                        st.text(content)
+                                        st.text(content.replace("\n", " "))
         except Exception:
             pass
 

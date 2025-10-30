@@ -140,23 +140,3 @@ class AgentInterface(ABC):
         에러 처리. 필요시 서브클래스에서 override.
         """
         self.save_state("last_error", {"metadata": request.metadata, "error": response.error})
-
-
-# 예시 간단 구현체 (테스트용, 실제 API 호출 없음)
-class NoopAgent(AgentInterface):
-    """
-    외부 호출 없이 입력을 그대로 반환하는 단위 테스트용 에이전트.
-    """
-
-    def prepare_request(self, request: AgentRequest) -> Dict[str, Any]:
-        # 요청을 그대로 payload로 변환
-        return {"messages": request.messages, "metadata": request.metadata, "model": self.config.model}
-
-    def send_request(self, payload: Dict[str, Any]) -> Any:
-        # 실제 호출 대신 로컬 시뮬레이션: 에코(raw)
-        return {"echo": payload, "timestamp": time.time()}
-
-    def parse_response(self, raw_response: Any) -> AgentResponse:
-        # 에코된 내용을 텍스트로 변환
-        content = " | ".join([m.get("content", "") for m in raw_response["echo"]["messages"]]) if raw_response["echo"]["messages"] else ""
-        return AgentResponse(content=content, raw=raw_response, usage={"simulated": True})

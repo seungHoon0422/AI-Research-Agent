@@ -19,6 +19,10 @@ def show_data_collect_agent_help_dialog():
             - Paper Search Tool: 논문/학술 자료 중심의 키워드 검색을 수행합니다. 제목/요약/링크 중심 결과를 반환합니다.
             
             사용 팁: 채팅 입력에 "도메인 기반으로 최신 자료 찾아줘", "논문 위주로 정리해줘" 등 의도를 명시하면 도구 선택이 더 정확해집니다.
+            
+            추천 도메인
+            - https://www.aitimes.com/news
+            - https://huggingface.co/models?pipeline_tag=text-generation&sort=created
             """
         )
     _dialog()

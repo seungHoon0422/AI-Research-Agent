@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="📘 사용 가이드", page_icon="📘", layout="centered")
 
-st.title("📘 AI Research Agent 사용 가이드")
+st.title("📘 ASAP (AI Search Agent Platform)")
 st.caption("아래 각 섹션의 제목을 클릭하면 해당 페이지로 이동합니다.")
 st.markdown("---")
 
@@ -31,13 +31,3 @@ st.page_link(
 st.markdown(GUIDE_03_SUMMARY_MD)
 
 st.markdown("---")
-
-with st.expander("ℹ️ 팁: 자주 묻는 질문"):
-    st.markdown("""
-    - 도메인 입력칸은 최대 3개까지 추가됩니다. CLEAR로 초기화할 수 있습니다.
-    - PDF 미리보기는 최대 5페이지 텍스트만 표시됩니다(이미지 기반 PDF는 제외).
-    - 인덱서 실행/상태 확인은 `ai_search.IndexerManager`를 통해 관리됩니다.
-    - 그래프는 컬럼 너비에 맞춰 100%로 렌더링되며, 레이아웃 비율은 상단 3:1 구성입니다.
-    """)
-
-
