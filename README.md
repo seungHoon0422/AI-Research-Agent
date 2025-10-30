@@ -1,16 +1,35 @@
-## ASAP (AI Search Agent Platform)
+<div align="center">
 
-## 주제 선정 목적
+<h1>ASAP · AI Search Agent Platform</h1>
+
+<p>도메인·문서 기반 RAG 리서치와 지식 허브를 한 곳에서</p>
+
+<img src="images/document-hub.png" alt="Document Hub" width="850" />
+
+<p>
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white" />
+  <img alt="Streamlit" src="https://img.shields.io/badge/Streamlit-1.50+-FF4B4B?logo=streamlit&logoColor=white" />
+  <img alt="Azure" src="https://img.shields.io/badge/Azure-OpenAI%20%7C%20AI%20Search%20%7C%20WebApp-0078D4?logo=microsoftazure&logoColor=white" />
+  <img alt="uv" src="https://img.shields.io/badge/uv-Package%20Manager-0B7285" />
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-black" />
+  
+</p>
+
+</div>
+
+---
+
+## 왜 ASAP인가
 - 최신 AI 기술 트렌드의 빠른 변화에 따른 기술 리서치 비용 감소
 - 관련 전문 지식 문서를 빠르게 인용 및 분석
 - 휘발성 학습이 아닌 학습한 자료를 영구적으로 보관 및 공유
 
 
-## 활용 기술
+## 활용 기술 스택
 
 - `python 3.12`
 
-- `uv Package Manger`
+- `uv`(Package Manager)
 
 - `streamlit`
 
@@ -40,7 +59,9 @@
     - `paper search` : 주요 논문 검색 사이트인 arxiv, pubmed 등 논문 데이터를 수집하는 도구
 
 
-## 주요 기능
+---
+
+## 주요 기능 한눈에 보기
 
 ### 1. 기술 자료 수집 및 검색 기능
 
@@ -54,11 +75,13 @@
 - **도구 호출**: 외부 도구 결과와 모델 답변을 구분 표시 및 MCP 도구를 활용해 최신 검색 결과 반영
 - **인용 표시**: 답변에 사용된 문서 청크 데이터, 도메인 출처 표시
 
-###  3. Document Hub - 지식 데이터베이스 구축
+### 3. Document Hub - 지식 데이터베이스 구축
 - **지식 그래프**: [Document Hub] - [카테고리] - [키워드] 관계 시각화
 - **카테고리 필터**: 선택된 카테고리 항목만 그래프/목록 반영
 - **문서 목록**: 카테고리 별 Document Hub에 등록된 문서 목록 표시 및 페이지네이션
 
+
+---
 
 ## 핵심 기술 포인트
 
@@ -73,6 +96,8 @@
 - streamlit-agraph 라이브러리를 통한 데이터 시각화
 
 
+---
+
 ## 향후 개선 및 확장 계획
 
 - 도메인 확장 : AI 기술 외 타 도메인으로의 확장
@@ -84,3 +109,46 @@
 - 문서 Index 성능 개선 : 자동 Index 생성, 도메인, 카테고리 별 Index 생성
 
 - 그래프 확장: Neo4j 연동(고도화된 지식 그래프 생성), 그래프, 문서 연동
+
+---
+
+## 빠른 시작(Quick Start)
+
+1) 의존성 설치 및 실행
+
+```bash
+# uv 설치 (없다면)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 패키지 동기화
+uv sync
+
+# 실행
+uv run streamlit run main.py --server.port 8000 --server.address 0.0.0.0
+```
+
+2) 환경 변수(.env 예시)
+
+```
+AZURE_OPENAI_ENDPOINT=...
+AZURE_OPENAI_API_KEY=...
+AZURE_AI_SEARCH_ENDPOINT=...
+AZURE_AI_SEARCH_API_KEY=...
+INDEX_NAME=aisearch
+AZURE_BLOB_CONNECTION_STRING=...
+AZURE_BLOB_CONTAINER=documents
+```
+
+---
+
+## 구성(Architecture) 요약
+
+- Streamlit UI ↔ Azure OpenAI(Chat) ↔ Azure AI Search(RAG 데이터소스)
+- Azure Blob Storage(업로드 문서 저장) → Indexer → AI Search 인덱스
+- MCP Tools(Tavily, Paper Search)로 최신 외부 지식 보강
+
+---
+
+## 라이선스
+
+이 저장소는 MIT License를 따릅니다.
