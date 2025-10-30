@@ -34,3 +34,15 @@
     - 검색된 Docuemnt의 keyword 추출하여 지식 허브의 Document keyword 기반 관계도 생성
     - Neo4j 기반 지식 그래프 생성
 
+---
+
+## Database 생성 및 연동
+
+- 데이터베이스 생성
+
+![image](./images/database-setting.png)
+
+- VS Code를 통한 Azure PostgreSQL Database 연동
+
+![image](./images/database-connect.png)
+

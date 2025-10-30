@@ -1,0 +1,22 @@
+[project]
+name = "ai-research-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "asyncio>=4.0.0",
+    "azure-ai-vision-imageanalysis>=1.0.0",
+    "azure-identity>=1.25.1",
+    "azure-search-documents>=11.6.0",
+    "azure-storage-blob>=12.27.0",
+    "langchain-openai>=1.0.1",
+    "mcp>=1.19.0",
+    "openai>=2.6.0",
+    "psycopg2-binary>=2.9.11",
+    "pypdf2>=3.0.1",
+    "python-dotenv>=1.1.1",
+    "sqlalchemy>=2.0.44",
+    "streamlit>=1.50.0",
+    "streamlit-agraph>=0.0.45",
+]
