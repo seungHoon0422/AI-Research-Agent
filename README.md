@@ -1,6 +1,6 @@
 <div align="center">
 
-<h1>ASAP · AI Search Agent Platform</h1>
+<h1>ASAP (AI Search Agent Platform)</h1>
 
 <p>도메인·문서 기반 RAG 리서치와 지식 허브를 한 곳에서</p>
 
@@ -11,7 +11,6 @@
   <img alt="Streamlit" src="https://img.shields.io/badge/Streamlit-1.50+-FF4B4B?logo=streamlit&logoColor=white" />
   <img alt="Azure" src="https://img.shields.io/badge/Azure-OpenAI%20%7C%20AI%20Search%20%7C%20WebApp-0078D4?logo=microsoftazure&logoColor=white" />
   <img alt="uv" src="https://img.shields.io/badge/uv-Package%20Manager-0B7285" />
-  <img alt="License" src="https://img.shields.io/badge/License-MIT-black" />
   
 </p>
 
@@ -19,49 +18,117 @@
 
 ---
 
-## 왜 ASAP인가
-- 최신 AI 기술 트렌드의 빠른 변화에 따른 기술 리서치 비용 감소
-- 관련 전문 지식 문서를 빠르게 인용 및 분석
-- 휘발성 학습이 아닌 학습한 자료를 영구적으로 보관 및 공유
+## 🤔 왜 ASAP인가?
+
+최신 AI 기술 트렌드를 빠르게 인지하고, 관련 지식 문서를 학습하여 서비스에 반영하는 작업을 진행하면서, 이러한 리서치 과정과 지식 문서 관리를 체계화하고 효율화하기 위해 이 플랫폼을 구축
+
+- 최신 AI 기술 트렌드의 빠른 변화에 따른 **기술 리서치 비용 감소**
+- 관련 전문 **지식 문서의 수집**과 **문서 기반 에이전트 채팅**을 통한 기술 역량 향상
+- 휘발성 학습이 아닌 **학습한 자료를 영구적으로 보관 및 공유**
+
+---
 
 
-## 활용 기술 스택
 
-- `python 3.12`
+## 🚀 빠른 시작(Quick Start)
 
-- `uv`(Package Manager)
+- 의존성 설치 및 실행
 
-- `streamlit`
+```bash
+# uv 설치 (없다면)
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
-- Azure Resource
+# 패키지 동기화
+uv sync
 
-    - Azure OpenAI
-        - `gpt-4.1` model 사용
-        - 커스텀 컨텐츠 필터 사용 : 검색 범위 확대 목적
+# 실행
+uv run streamlit run main.py --server.port 8000 --server.address 0.0.0.0
+```
+---
 
-    - Azure Blob Storage
-        - 업로드 지식 문서 관리
+## 🛠️ 활용 기술 스택
 
-    - Azure AI Search
-        - 업로드 문서의 Index Document 등록을 통한 RAG에 활용
-        - 문서의 `카테고리`, `키워드` 추출에 사용
-
-    - Azure WebApp
-        - Streamlit, UV 기반 소스 배포
-
-    - PostgreSQL Database ( 개발 필요 )
-        - 사용자 별 채팅 및 파일 업로드 이력 관리
-        - 업로드 문서 키워드, 카테고리 관리
-
-- MCP Tool
-    - 모델 학습 시기에 따른 최신 정보 부재 해결을 위해 도입
-    - `tavily` : url 기반 문서 검색 도구
-    - `paper search` : 주요 논문 검색 사이트인 arxiv, pubmed 등 논문 데이터를 수집하는 도구
+| 카테고리 | 기술/서비스 | 설명 |
+|---------|------------|------|
+| **언어/런타임** | python 3.12 |  |
+| **패키지 관리** | uv | Package Manager |
+| **웹 프레임워크** | Streamlit | 서비스 UI 도구 활용 |
+| **Azure 서비스** | Azure OpenAI | `gpt-4.1` model 사용<br/>커스텀 컨텐츠 필터 사용 : 검색 범위 확대 목적 |
+| | Azure Blob Storage | 업로드 지식 문서 관리 |
+| | Azure AI Search | 업로드 문서의 Index Document 등록을 통한 RAG에 활용<br/>문서의 `카테고리`, `키워드` 추출에 사용 |
+| | Azure WebApp | Streamlit, UV 기반 소스 배포 |
+| | PostgreSQL Database (개발 필요) | 사용자 별 채팅 및 파일 업로드 이력 관리<br/>업로드 문서 키워드, 카테고리 관리 |
+| **외부 도구** | MCP Tool | 모델 학습 시기에 따른 최신 정보 부재 해결을 위해 도입<br/>- `tavily` : url 기반 문서 검색 도구<br/>- `paper search` : 주요 논문 검색 사이트인 arxiv, pubmed 등 논문 데이터를 수집하는 도구 |
 
 
 ---
 
-## 주요 기능 한눈에 보기
+
+
+## 🏗️ 시스템 아키텍처
+
+```mermaid
+graph TB
+    subgraph "Frontend"
+        UI[Streamlit Web UI]
+    end
+
+    subgraph "Azure Cloud Platform"
+        subgraph "Compute"
+            WebApp[Azure WebApp<br/>Python 3.12 + UV]
+        end
+        
+        subgraph "AI Services"
+            OpenAI[Azure OpenAI<br/>GPT-4.1]
+            AISearch[Azure AI Search<br/>RAG Index]
+        end
+        
+        subgraph "Storage"
+            Blob[Azure Blob Storage<br/>Document Files]
+        end
+        
+        subgraph "Database 향후 계획"
+            DB[(PostgreSQL<br/>채팅/문서 이력)]
+        end
+    end
+
+    subgraph "External Tools"
+        MCP[MCP Server]
+        Tavily[Tavily Search<br/>Web Search]
+        Paper[Paper Search<br/>ArXiv/PubMed]
+    end
+
+    UI -->|Deploy| WebApp
+    WebApp --> UI
+    
+    UI -->|Chat Query| OpenAI
+    UI -->|Upload Docs| Blob
+    UI -->|View Knowledge| AISearch
+    
+    Blob -->|Index Docs| AISearch
+    AISearch -->|RAG Context| OpenAI
+    
+    OpenAI -->|Tool Call| MCP
+    MCP --> Tavily
+    MCP --> Paper
+    
+    UI -.향후 연동.-> DB
+
+    style UI fill:#FF4B4B,stroke:#333,stroke-width:2px
+    style OpenAI fill:#0078D4,stroke:#333,stroke-width:2px
+    style AISearch fill:#0078D4,stroke:#333,stroke-width:2px
+    style Blob fill:#0078D4,stroke:#333,stroke-width:2px
+    style WebApp fill:#0078D4,stroke:#333,stroke-width:2px
+    style MCP fill:#4CAF50,stroke:#333,stroke-width:2px
+    style Tavily fill:#4CAF50,stroke:#333,stroke-width:2px
+    style Paper fill:#4CAF50,stroke:#333,stroke-width:2px
+    style DB fill:#336791,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
+```
+
+
+---
+
+## ⭐ 주요 기능 한눈에 보기
 
 ### 1. 기술 자료 수집 및 검색 기능
 
@@ -83,7 +150,7 @@
 
 ---
 
-## 핵심 기술 포인트
+## 💡 핵심 기술 포인트
 
 - MCP Server를 통한 모델 도구 호출 기능 구현
 
@@ -98,7 +165,7 @@
 
 ---
 
-## 향후 개선 및 확장 계획
+## 📈 향후 개선 및 확장 계획
 
 - 도메인 확장 : AI 기술 외 타 도메인으로의 확장
 
@@ -111,44 +178,3 @@
 - 그래프 확장: Neo4j 연동(고도화된 지식 그래프 생성), 그래프, 문서 연동
 
 ---
-
-## 빠른 시작(Quick Start)
-
-1) 의존성 설치 및 실행
-
-```bash
-# uv 설치 (없다면)
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# 패키지 동기화
-uv sync
-
-# 실행
-uv run streamlit run main.py --server.port 8000 --server.address 0.0.0.0
-```
-
-2) 환경 변수(.env 예시)
-
-```
-AZURE_OPENAI_ENDPOINT=...
-AZURE_OPENAI_API_KEY=...
-AZURE_AI_SEARCH_ENDPOINT=...
-AZURE_AI_SEARCH_API_KEY=...
-INDEX_NAME=aisearch
-AZURE_BLOB_CONNECTION_STRING=...
-AZURE_BLOB_CONTAINER=documents
-```
-
----
-
-## 구성(Architecture) 요약
-
-- Streamlit UI ↔ Azure OpenAI(Chat) ↔ Azure AI Search(RAG 데이터소스)
-- Azure Blob Storage(업로드 문서 저장) → Indexer → AI Search 인덱스
-- MCP Tools(Tavily, Paper Search)로 최신 외부 지식 보강
-
----
-
-## 라이선스
-
-이 저장소는 MIT License를 따릅니다.
