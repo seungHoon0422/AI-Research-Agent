@@ -2,7 +2,8 @@
 
 <h1>ASAP (AI Search Agent Platform)</h1>
 
-<p>도메인·문서 기반 RAG 리서치와 지식 허브를 한 곳에서</p>
+<p>도메인·문서 기반 RAG 리서치와 지식 허브를 한 곳에서 <a href="https://pro-seunghun-poland-web.azurewebsites.net" target="_blank">🌐 ASAP Domain Link</a>
+</p> 
 
 <img src="images/document-hub.png" alt="Document Hub" width="850" />
 
@@ -13,6 +14,7 @@
   <img alt="uv" src="https://img.shields.io/badge/uv-Package%20Manager-0B7285" />
   
 </p>
+
 
 </div>
 
